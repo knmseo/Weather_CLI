@@ -24,23 +24,24 @@ def main():
         except httpx.RequestError:
             print("There is a problem with your network!")
             continue
+
         else:
             if response.status_code == 200:
                 data = response.json()
+                print(
+                    f"The temperature in {TargetCity} is {data['main']['temp']} and feels like {data['main']['feels_like']}. The weather is {data['weather'][0]['main']} with {data['weather'][0]['description']} "
+                )
             elif response.status_code == 401:
                 print("Bad API Key!")
-                continue
+
             elif response.status_code == 404:
                 print("Invalid city name!")
-                continue
+
             else:
                 print("Error")
-                continue
 
-        print(
-            f"The temperature in {TargetCity} is {data['main']['temp']} and feels like {data['main']['feels_like']}. The weather is {data['weather'][0]['main']} with {data['weather'][0]['description']} "
-        )
         UserResponse = input("Do you want to query another city? (y/n)")
+
         if UserResponse == "y":
             ProgramRunning = True
         else:
